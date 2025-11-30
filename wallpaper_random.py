@@ -88,10 +88,8 @@ def wallpaper_loop():
         if not wallpapers:
             log(f"⚠️ No wallpapers on page {current_page}")
         else:
-            # фільтруємо, щоб не повторювати
             possible = [w for w in wallpapers if w not in seen_wallpapers]
 
-            # якщо фото на цій сторінці закінчилися — перехід
             if not possible:
                 log(f"📭 Page {current_page} exhausted, switching page...")
                 current_page -= 1
@@ -100,7 +98,6 @@ def wallpaper_loop():
                 save_state(current_page)
                 continue
 
-            # вибір рандомної картинки
             url = random.choice(possible)
 
             seen_wallpapers.add(url)
@@ -111,13 +108,11 @@ def wallpaper_loop():
             log(f"🎲 Random wallpaper set from page {current_page}: {url}")
             save_state(current_page)
 
-            # таймер між змінами
             for _ in range(int(delay_seconds / 10)):
                 if not running or paused:
                     break
                 time.sleep(10)
 
-        # перехід на попередню сторінку
         current_page -= 1
         if current_page < 1:
             log("🔁 Restarting page cycle!")
